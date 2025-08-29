@@ -1,0 +1,42 @@
+openapi: "3.0.1"
+info:
+  title: analytics API
+  version: "1.0"
+servers:
+  - url: /api
+
+paths:
+
+  /load_data_partners/enqueue:
+    get:
+      summary: >
+        Load data from partners APIs and save to clickhouse
+      operationId: legacy.parser.Partners_data_loader
+      parameters:
+        - name: start_date
+          in: query
+          schema:
+            type: string
+            format: date
+            default: ""
+        - name: finish_date
+          in: query
+          schema:
+            type: string
+            format: date
+            default: ""
+      responses:
+        '200':
+          $ref: "#/components/responses/JobId"
+
+components:
+  responses:
+    JobId:
+      description: "A job ID."
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              job_id:
+                type: integer
